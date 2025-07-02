@@ -60,7 +60,8 @@ Delete when user logs out
 
 Track hits for analytics
 
-⚙️ How It Works
+**### ⚙️ How It Works**
+
 🧩 The app uses Redis for in-memory storage and SQLite for tracking metadata (e.g., hit count). Example flow:
 
 🟢 Start the App
