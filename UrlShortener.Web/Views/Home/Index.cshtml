@@ -1,0 +1,161 @@
+﻿@using UrlShortener.Application.DTOs
+@model List<ShortUrlDto>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - Sleek & Modern</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .header {
+            background: linear-gradient(90deg, #007bff, #00d4ff);
+            color: white;
+            padding: 3rem;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: -3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .form-control:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .table-container {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .table tr {
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .table tr:hover {
+            transform: scale(1.02);
+            background: #f1f9ff;
+        }
+        .short-url {
+            font-weight: 600;
+            color: #007bff;
+        }
+        .original-url {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .spinner {
+            display: none;
+        }
+        .spinner.show {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="header">
+            <h1>URL Shortener</h1>
+            <p>Transform long URLs into short, shareable links</p>
+        </div>
+
+        <div class="form-container">
+            <form id="shortenForm" asp-action="Shorten" method="post">
+                <div class="input-group mb-3">
+                    <input type="url" asp-for="@(new ShortenUrlViewModel().OriginalUrl)"
+                           class="form-control form-control-lg"
+                           placeholder="Enter your URL here"
+                           aria-label="URL to shorten"
+                           required>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <span id="shortenBtnText">Shorten</span>
+                        <span id="spinner" class="spinner spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+                @if (ViewBag.ShortUrl != null)
+                {
+                    <div class="alert alert-success mt-3 animate__animated animate__fadeIn">
+                        Short URL: <a href="@ViewBag.ShortUrl" target="_blank" class="short-url">@ViewBag.ShortUrl</a>
+                    </div>
+                }
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger mt-3 animate__animated animate__shakeX">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <p>@error.ErrorMessage</p>
+                        }
+                    </div>
+                }
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2 class="mb-4">Your Shortened URLs</h2>
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Short URL</th>
+                                <th>Original URL</th>
+                                <th>Created At</th>
+                                <th>Clicks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var url in Model)
+                            {
+                                <tr>
+                                    <td><a href="@($"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}/{url.ShortCode}")" class="short-url">@url.ShortCode</a></td>
+                                    <td class="original-url"><a href="@url.OriginalUrl" target="_blank" title="@url.OriginalUrl">@url.OriginalUrl</a></td>
+                                    <td>@url.CreatedAt.ToString("g")</td>
+                                    <td>@url.ClickCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No URLs shortened yet. Start by entering a URL above!</p>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('shortenForm').addEventListener('submit', function () {
+            const btnText = document.getElementById('shortenBtnText');
+            const spinner = document.getElementById('spinner');
+            btnText.textContent = 'Shortening...';
+            spinner.classList.add('show');
+        });
+    </script>
+</body>
+</html>

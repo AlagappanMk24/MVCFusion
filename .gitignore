@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/MVCFushion/config
+/.vs
+/UrlShortener.Application/bin/Debug/net8.0
+/UrlShortener.Application/obj
+/UrlShortener.Domain/bin/Debug/net8.0
+/UrlShortener.Domain/obj
+/UrlShortener.Infrastructure/bin/Debug/net8.0
+/UrlShortener.Infrastructure/obj
+/UrlShortener.Web/bin/Debug/net8.0
+/UrlShortener.Web/obj
