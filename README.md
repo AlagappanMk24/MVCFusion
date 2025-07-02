@@ -4,8 +4,6 @@ Welcome to **MVCFusion**, a cutting-edge ASP.NET Core solution showcasing modula
 
 ## 📚 Table of Contents
 
-## 📚 Table of Contents
-
 - [🔴 Redis Cache](#-redis-cache)
   - 🚀 Features
   - 🌍 Real-World Example
@@ -61,42 +59,40 @@ Delete when user logs out
 
 Track hits for analytics
 
-### ⚙️ **How It Works**
-The Redis Cache Demo uses Redis for high-speed, in-memory caching and SQLServer to log metadata like hit counts. Here’s the flow using the session:abc123 payload:
+---
+
+**### 🌍 How it Works?**
+
+The app uses Redis for fast, in-memory caching and SQL Server to log metadata like hit counts. Here's how it works with `session:abc123`:
 
 Launch the App 🚀  
-
-Visit https://localhost:5002 to see a modern interface with forms and a table.
-The app connects to Redis (localhost:6379) and SQLServer (redisdemo.db).
-
+- Open: https://localhost:5002  
+- Backend connects to Redis (localhost:6379) and SQL Server (redisdemo.db)
 
 Store a Key-Value Pair 💾  
-
-Enter session:abc123 (key) and eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 (value) in the "Store" form.  
-Click "Store." The app saves the pair in Redis (1-hour expiration) and logs metadata in SQLServer.  
-A success message appears: "Stored key 'session:abc123' successfully."  
-The table updates:  Key: session:abc123 | Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 | Created At: 7/2/2025 4:27 PM | Hits: 0
+- Enter `session:abc123` and its value in the "Store" form  
+- Click Store to save in Redis with 1-hour expiration  
+- Metadata is logged in SQL Server  
+- A success message appears and the table updates
 
 Retrieve a Value 🔍  
-
-Enter session:abc123 in the "Retrieve" form and click "Retrieve."  
-The app fetches the value from Redis, increments the hit count in SQLServer, and shows: "Retrieved value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."  
-The table updates:  Key: session:abc123 | Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 | Created At: 7/2/2025 4:27 PM | Hits: 1
+- Enter `session:abc123` in the "Retrieve" form  
+- Click Retrieve to get the value from Redis  
+- Hit count is updated in SQL Server  
+- The table reflects the change
 
 Delete a Key 🗑️  
-
-Enter session:abc123 in the "Delete" form and click "Delete."  
-The app removes the key from Redis and SQLServer, showing: "Deleted key 'session:abc123' successfully."  
-The table removes the entry.
+- Enter `session:abc123` in the "Delete" form  
+- Click Delete to remove the key from Redis and SQL Server  
+- Entry is removed from the table
 
 Automatic Expiration ⏳  
-
-Redis deletes keys after 1 hour (e.g., by 5:27 PM).  
-SQLServer retains metadata until manually deleted via the UI.
+- Redis auto-deletes keys after 1 hour  
+- SQL Server metadata remains until manually deleted from the UI
 
 View All Entries 📊  
-
-The table shows all cached keys, values, creation times, and hit counts, updating after each action.
+- The table displays all cached keys, values, creation timestamps, and hit counts  
+- Table updates after every operation
 
 Why Redis? It’s blazing fast for temporary data like session tokens, reducing database load and speeding up your app! ⚡
 
