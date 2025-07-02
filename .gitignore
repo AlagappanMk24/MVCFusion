@@ -12,3 +12,11 @@
 /UrlShortener.Infrastructure/obj
 /UrlShortener.Web/bin/Debug/net8.0
 /UrlShortener.Web/obj
+/RedisCache.Application/bin/Debug/net8.0
+/RedisCache.Application/obj
+/RedisCache.Domain/bin/Debug/net8.0
+/RedisCache.Domain/obj
+/RedisCache.Infrastructure/bin/Debug/net8.0
+/RedisCache.Infrastructure/obj
+/RedisCache.Web/bin/Debug/net8.0
+/RedisCache.Web/obj
