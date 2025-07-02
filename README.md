@@ -81,6 +81,54 @@ Redis auto-removes keys after TTL; SQLite keeps metadata until manually deleted.
 📊 View All Entries
 Table displays: Key | Value | Created At | Hit Count
 
+**How It Works**
+
+The Redis Cache Demo uses Redis for fast, in-memory storage and SQLite to track metadata (e.g., hit counts). Here’s the workflow using the session:abc123 example:
+
+**1. Start the App:**
+
+Access https://localhost:5002 to see a clean interface with forms for storing, retrieving, and deleting keys.
+
+The app connects to Redis (localhost:6379) and SQLite (redisdemo.db).
+
+**2. Store a Key-Value Pair:**
+
+Enter session:abc123 (key) and eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 (value) in the "Store" form.
+
+Click "Store." The app saves the pair in Redis (with a 1-hour expiration) and logs metadata in SQLite.
+
+See a success message: "Stored key 'session:abc123' successfully."
+
+The table updates: session:abc123 | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 | 7/2/2025 4:05 PM | 0.
+
+**3. Retrieve a Value:**
+
+Enter session:abc123 in the "Retrieve" form and click "Retrieve."
+
+The app fetches the value from Redis, increments the hit count in SQLite, and shows: "Retrieved value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+
+The table updates: session:abc123 | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 | 7/2/2025 4:05 PM | 1.
+
+**4. Delete a Key:**
+
+Enter session:abc123 in the "Delete" form and click "Delete."
+
+The app removes the key from Redis and SQLite, showing: "Deleted key 'session:abc123' successfully."
+
+The table removes the entry.
+
+**5. Automatic Expiration:**
+
+Redis deletes the key after 1 hour (e.g., by 5:05 PM).
+
+SQLite retains metadata until manually deleted via the UI.
+
+**6. View All Entries:**
+
+The table displays all cached entries with keys, values, creation times, and hit counts, updating after each action.
+
+**Why Redis? ** It’s lightning-fast for temporary data like session tokens, reducing database load and speeding up your website.
+
 📦 Projects Overview
 
 Project	Description	URL
